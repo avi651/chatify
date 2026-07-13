@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E1B8966130049DA0001C7FD7 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = E1B8966030049DA0001C7FD7 /* FactoryKit */; };
+		E1B8966630049DA0001C7FD7 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = E1B8966530049DA0001C7FD7 /* KeychainAccess */; };
+		E1B8966830049DA0001C7FD7 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = E1B8966730049DA0001C7FD7 /* Nuke */; };
+		E1B8966A30049DA0001C7FD7 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = E1B8966930049DA0001C7FD7 /* NukeUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E1B8964030049BD7001C7FD7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -23,15 +30,41 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E1B8966B30049DA0001C7FD7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		E1B8962D30049BD6001C7FD7 /* Chatify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chatify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1B8963F30049BD7001C7FD7 /* ChatifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1B8964930049BD7001C7FD7 /* ChatifyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatifyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E1B9A9303004AC320089C177 /* Exceptions for "Chatify" folder in "Chatify" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E1B8962C30049BD6001C7FD7 /* Chatify */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E1B8962F30049BD6001C7FD7 /* Chatify */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E1B9A9303004AC320089C177 /* Exceptions for "Chatify" folder in "Chatify" target */,
+			);
 			path = Chatify;
 			sourceTree = "<group>";
 		};
@@ -52,6 +85,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1B8966A30049DA0001C7FD7 /* NukeUI in Frameworks */,
+				E1B8966130049DA0001C7FD7 /* FactoryKit in Frameworks */,
+				E1B8966630049DA0001C7FD7 /* KeychainAccess in Frameworks */,
+				E1B8966830049DA0001C7FD7 /* Nuke in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +115,7 @@
 				E1B8962F30049BD6001C7FD7 /* Chatify */,
 				E1B8964230049BD7001C7FD7 /* ChatifyTests */,
 				E1B8964C30049BD7001C7FD7 /* ChatifyUITests */,
+				E1B8965F30049DA0001C7FD7 /* Frameworks */,
 				E1B8962E30049BD6001C7FD7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,6 +130,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E1B8965F30049DA0001C7FD7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -102,6 +147,7 @@
 				E1B8962930049BD6001C7FD7 /* Sources */,
 				E1B8962A30049BD6001C7FD7 /* Frameworks */,
 				E1B8962B30049BD6001C7FD7 /* Resources */,
+				E1B8966B30049DA0001C7FD7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -112,6 +158,10 @@
 			);
 			name = Chatify;
 			packageProductDependencies = (
+				E1B8966030049DA0001C7FD7 /* FactoryKit */,
+				E1B8966530049DA0001C7FD7 /* KeychainAccess */,
+				E1B8966730049DA0001C7FD7 /* Nuke */,
+				E1B8966930049DA0001C7FD7 /* NukeUI */,
 			);
 			productName = Chatify;
 			productReference = E1B8962D30049BD6001C7FD7 /* Chatify.app */;
@@ -195,6 +245,11 @@
 			);
 			mainGroup = E1B8962430049BD6001C7FD7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E1B8965C30049BF5001C7FD7 /* XCRemoteSwiftPackageReference "Factory" */,
+				E1B8965D30049D0F001C7FD7 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				E1B8965E30049D87001C7FD7 /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E1B8962E30049BD6001C7FD7 /* Products */;
 			projectDirPath = "";
@@ -271,6 +326,8 @@
 /* Begin XCBuildConfiguration section */
 		E1B8965130049BD7001C7FD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = E1B8962F30049BD6001C7FD7 /* Chatify */;
+			baseConfigurationReferenceRelativePath = Config/Dev.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -334,6 +391,8 @@
 		};
 		E1B8965230049BD7001C7FD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = E1B8962F30049BD6001C7FD7 /* Chatify */;
+			baseConfigurationReferenceRelativePath = Config/Prod.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -390,6 +449,8 @@
 		};
 		E1B8965430049BD7001C7FD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = E1B8962F30049BD6001C7FD7 /* Chatify */;
+			baseConfigurationReferenceRelativePath = Config/Dev.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -397,6 +458,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Chatify/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -421,6 +483,8 @@
 		};
 		E1B8965530049BD7001C7FD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = E1B8962F30049BD6001C7FD7 /* Chatify */;
+			baseConfigurationReferenceRelativePath = Config/Prod.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -428,6 +492,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Chatify/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -452,6 +517,8 @@
 		};
 		E1B8965730049BD7001C7FD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = E1B8962F30049BD6001C7FD7 /* Chatify */;
+			baseConfigurationReferenceRelativePath = Config/Dev.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -473,6 +540,8 @@
 		};
 		E1B8965830049BD7001C7FD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = E1B8962F30049BD6001C7FD7 /* Chatify */;
+			baseConfigurationReferenceRelativePath = Config/Prod.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -494,6 +563,8 @@
 		};
 		E1B8965A30049BD7001C7FD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = E1B8962F30049BD6001C7FD7 /* Chatify */;
+			baseConfigurationReferenceRelativePath = Config/Dev.xcconfig;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -513,6 +584,8 @@
 		};
 		E1B8965B30049BD7001C7FD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = E1B8962F30049BD6001C7FD7 /* Chatify */;
+			baseConfigurationReferenceRelativePath = Config/Prod.xcconfig;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -570,6 +643,56 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E1B8965C30049BF5001C7FD7 /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.3.1;
+			};
+		};
+		E1B8965D30049D0F001C7FD7 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		E1B8965E30049D87001C7FD7 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.0.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E1B8966030049DA0001C7FD7 /* FactoryKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1B8965C30049BF5001C7FD7 /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = FactoryKit;
+		};
+		E1B8966530049DA0001C7FD7 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1B8965D30049D0F001C7FD7 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		E1B8966730049DA0001C7FD7 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1B8965E30049D87001C7FD7 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		E1B8966930049DA0001C7FD7 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1B8965E30049D87001C7FD7 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E1B8962530049BD6001C7FD7 /* Project object */;
 }

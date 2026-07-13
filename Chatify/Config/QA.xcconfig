@@ -1,0 +1,2 @@
+BASE_URL = qa.chatify.com
+WEBSOCKET_URL = qa.chatify.com/chat
