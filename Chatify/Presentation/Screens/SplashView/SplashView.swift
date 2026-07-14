@@ -9,34 +9,72 @@ import SwiftUI
 
 struct SplashView: View {
 
+    @State private var viewModel = SplashViewModel()
+    @State private var scale: CGFloat = 0.8
+    @State private var opacity: Double = 0.5
+
+    @Environment(AppCoordinator.self)
+    private var coordinator
+
     var body: some View {
 
-        VStack {
-            Text("Chatify")
+        ZStack {
 
-            Text("http: \(Environment.baseURL.absoluteString)")
-            Text("ws: \(Environment.websocketURL.absoluteString)")
+            AppColors.background
+                .ignoresSafeArea()
+
+            VStack(spacing: AppSpacing.lg) {
+
+                Spacer()
+
+                VStack(spacing: AppSpacing.md) {
+
+                    Image(systemName: AppImages.splashLogo)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(
+                            width: AppSize.splashLogo,
+                            height: AppSize.splashLogo
+                        )
+                        .foregroundStyle(AppColors.primary)
+                        .scaleEffect(scale)
+                        .opacity(opacity)
+
+                    Text(AppStrings.appName)
+                        .font(AppFont.title)
+                        .foregroundStyle(AppColors.primaryText)
+                }
+
+                Spacer()
+
+                VStack(spacing: AppSpacing.sm) {
+
+                    ProgressView()
+
+                    Text(AppStrings.loading)
+                        .font(AppFont.body)
+                        .foregroundStyle(AppColors.secondaryText)
+                }
+
+            }
+            .padding(AppSpacing.md)
         }
         .onAppear {
 
-            print("=========== INFO ===========")
-
-            print(Bundle.main.infoDictionary ?? [:])
-
-            print("BASE_URL ->",
-                  Bundle.main.object(forInfoDictionaryKey: "BASE_URL") ?? "nil")
-
-            print("WEBSOCKET_URL ->",
-                  Bundle.main.object(forInfoDictionaryKey: "WEBSOCKET_URL") ?? "nil")
-
-            print("============================")
-            
-            let storage = KeychainService()
-
-            try? storage.save("Avinash", for: KeychainKeys.userId)
-
-            print(try? storage.get(for: KeychainKeys.userId))
-
+            withAnimation(
+                .easeInOut(duration: 1)
+                .repeatForever(autoreverses: true)
+            ) {
+                scale = 1.0
+                opacity = 1.0
+            }
+        }
+        .task {
+            await viewModel.start()
+        }
+        .onChange(of: viewModel.shouldNavigate) { _, navigate in
+            guard navigate else { return }
+            coordinator.showLogin()
         }
     }
 }

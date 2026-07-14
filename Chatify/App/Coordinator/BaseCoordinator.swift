@@ -2,7 +2,7 @@
 //  BaseCoordinator.swift
 //  Chatify
 //
-//  Created by AVINASH on 13/07/26.
+//  Created by AVINASH on 14/07/26.
 //
 
 import SwiftUI
@@ -13,10 +13,6 @@ import Observation
 class BaseCoordinator<Route: Hashable>: Coordinator {
 
     var path = NavigationPath()
-
-    func start() {
-        // Override in child coordinator
-    }
 
     func push(_ route: Route) {
         path.append(route)

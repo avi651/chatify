@@ -2,7 +2,7 @@
 //  AppCoordinatorView.swift
 //  Chatify
 //
-//  Created by AVINASH on 13/07/26.
+//  Created by AVINASH on 14/07/26.
 //
 
 import SwiftUI
@@ -15,13 +15,12 @@ struct AppCoordinatorView: View {
             SplashView()
                 .navigationDestination(for: AppRoute.self) { route in
                     switch route {
-                    case .splash:
-                        SplashView()
-                    case .login:
+                      case .login:
                         LoginView()
-                    case .home:
+                        
+                       case .home:
                         HomeView()
-                    }
+                      }
                 }
         }
     }

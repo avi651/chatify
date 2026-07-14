@@ -1,2 +1,8 @@
-BASE_URL = localhost\:8080
-WEBSOCKET_URL = localhost\:8080/chat
+API_SCHEME = http
+API_HOST = localhost
+API_PORT = 8080
+
+WS_SCHEME = ws
+WS_HOST = localhost
+WS_PORT = 8080
+WS_PATH = chat
