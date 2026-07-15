@@ -32,4 +32,22 @@ enum AppSize {
         medium: 26,
         large: 30
     )
+
+    static let buttonHeight = AdaptiveLayout.value(
+        small: 44,
+        medium: 50,
+        large: 56
+    )
+
+    static let textFieldHeight = AdaptiveLayout.value(
+        small: 44,
+        medium: 50,
+        large: 56
+    )
+
+    static let cornerRadius = AdaptiveLayout.value(
+        small: 10,
+        medium: 12,
+        large: 16
+    )
 }

@@ -27,14 +27,8 @@ enum AdaptiveLayout {
         large: CGFloat
     ) -> CGFloat {
 
-        if isSmall {
-            return small
-        }
-
-        if isMedium {
-            return medium
-        }
-
+        if isSmall { return small }
+        if isMedium { return medium }
         return large
     }
 }
