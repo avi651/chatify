@@ -2,12 +2,14 @@
 //  AppRoute.swift
 //  Chatify
 //
-//  Created by AVINASH on 14/07/26.
+//  Created by AVINASH on 17/07/26.
 //
 
 import Foundation
 
-enum AppRoute: Hashable {
+enum AppRoute {
+    case splash
     case login
+    case register
     case home
 }

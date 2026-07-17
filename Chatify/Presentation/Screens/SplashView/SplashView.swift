@@ -9,72 +9,89 @@ import SwiftUI
 
 struct SplashView: View {
 
+    // MARK: - Properties
+
     @State private var viewModel = SplashViewModel()
-    @State private var scale: CGFloat = 0.8
+    @State private var scale: CGFloat = 0.85
     @State private var opacity: Double = 0.5
 
     @Environment(AppCoordinator.self)
     private var coordinator
 
+    // MARK: - Body
+
     var body: some View {
 
         ZStack {
 
-            AppColors.background
+            theme.colors.background
                 .ignoresSafeArea()
 
-            VStack(spacing: AppSpacing.lg) {
+            VStack {
 
                 Spacer()
 
-                VStack(spacing: AppSpacing.md) {
+                VStack(spacing: AppSize.s16) {
 
-                    Image(systemName: AppImages.splashLogo)
+                    Image(systemName: "message.fill")
                         .resizable()
                         .scaledToFit()
-                        .frame(
-                            width: AppSize.splashLogo,
-                            height: AppSize.splashLogo
-                        )
-                        .foregroundStyle(AppColors.primary)
+                        .frame(width: 90, height: 90)
+                        .foregroundStyle(theme.colors.primary.v60)
                         .scaleEffect(scale)
                         .opacity(opacity)
 
-                    Text(AppStrings.appName)
-                        .font(AppFont.title)
-                        .foregroundStyle(AppColors.primaryText)
+                    Text("Chatify")
+                        .textStyle(theme.typography.h2)
+
                 }
 
                 Spacer()
 
-                VStack(spacing: AppSpacing.sm) {
+                VStack(spacing: AppSize.s12) {
 
                     ProgressView()
 
-                    Text(AppStrings.loading)
-                        .font(AppFont.body)
-                        .foregroundStyle(AppColors.secondaryText)
-                }
+                    Text("Loading...")
+                        .textStyle(theme.typography.body)
+                        .foregroundStyle(theme.colors.textSecondary)
 
+                }
             }
-            .padding(AppSpacing.md)
+            .padding(AppSize.s24)
         }
         .onAppear {
-
-            withAnimation(
-                .easeInOut(duration: 1)
-                .repeatForever(autoreverses: true)
-            ) {
-                scale = 1.0
-                opacity = 1.0
-            }
+            startAnimation()
         }
         .task {
             await viewModel.start()
         }
-        .onChange(of: viewModel.shouldNavigate) { _, navigate in
-            guard navigate else { return }
+        .onChange(of: viewModel.shouldNavigate) { _, value in
+            guard value else { return }
             coordinator.showLogin()
         }
     }
+}
+
+// MARK: - Private
+
+private extension SplashView {
+
+    func startAnimation() {
+
+        withAnimation(
+            .easeInOut(duration: 1.2)
+                .repeatForever(autoreverses: true)
+        ) {
+
+            scale = 1.0
+            opacity = 1.0
+
+        }
+    }
+}
+
+#Preview {
+    SplashView()
+        .environment(AppCoordinator())
 }

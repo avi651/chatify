@@ -15,8 +15,7 @@ struct ChatifyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            AppCoordinatorView(coordinator: coordinator)
-                .environment(coordinator)
+            RootView().environment(coordinator)
         }
     }
 }

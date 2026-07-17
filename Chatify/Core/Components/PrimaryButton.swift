@@ -26,39 +26,58 @@ struct PrimaryButton: View {
         self.action = action
     }
 
+    private var backgroundColor: Color {
+        isEnabled
+        ? theme.colors.primary.v60
+        : theme.colors.neutral.v40
+    }
+
     var body: some View {
-        Button(action: action) {
-            Group {
+
+        Button {
+
+            guard !isLoading else { return }
+            action()
+
+        } label: {
+
+            ZStack {
+
+                Text(title)
+                    .textStyle(theme.typography.bodyBold)
+                    .foregroundStyle(.white)
+                    .opacity(isLoading ? 0 : 1)
+
                 if isLoading {
                     ProgressView()
                         .tint(.white)
-                } else {
-                    Text(title)
-                        .font(AppFont.body)
-                        .fontWeight(.semibold)
                 }
+
             }
             .frame(maxWidth: .infinity)
-            .frame(height: AppSize.buttonHeight)
+            .frame(height: AppSize.buttonMedium)
+            .background(backgroundColor)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: AppSize.r12
+                )
+            )
         }
-        .buttonStyle(.borderedProminent)
-        .clipShape(
-            RoundedRectangle(cornerRadius: AppSize.cornerRadius)
-        )
         .disabled(!isEnabled || isLoading)
         .accessibilityIdentifier("primary_button")
     }
 }
 
 #Preview {
-    VStack(spacing: AppSpacing.md) {
+
+    VStack(spacing: AppSize.s16) {
 
         PrimaryButton(title: "Login") {
 
         }
 
         PrimaryButton(
-            title: "Loading...",
+            title: "Loading",
             isLoading: true
         ) {
 
@@ -70,11 +89,7 @@ struct PrimaryButton: View {
         ) {
 
         }
+
     }
     .padding()
-}
-
-#Preview {
-    PrimaryButton(title: "Login", isLoading: false, isEnabled: false) { }
-        .padding()
 }
