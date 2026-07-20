@@ -10,55 +10,45 @@ import Foundation
 
 enum ValidationError: LocalizedError {
 
+    case emptyName
+    case invalidName
+
     case emptyEmail
     case invalidEmail
 
     case emptyPassword
     case weakPassword
 
-    case emptyName
-    case invalidName
-
-    case emptyPhone
-    case invalidPhone
-
-    case emptyOTP
-    case invalidOTP
+    case emptyConfirmPassword
+    case passwordsDoNotMatch
 
     var errorDescription: String? {
 
         switch self {
 
+        case .emptyName:
+            return "Name is required."
+
+        case .invalidName:
+            return "Enter a valid name."
+
         case .emptyEmail:
             return "Email is required."
 
         case .invalidEmail:
-            return "Please enter a valid email."
+            return "Enter a valid email."
 
         case .emptyPassword:
             return "Password is required."
 
         case .weakPassword:
-            return "Password must contain at least 8 characters."
+            return "Password must be at least 8 characters."
 
-        case .emptyName:
-            return "Name is required."
+        case .emptyConfirmPassword:
+            return "Confirm password is required."
 
-        case .invalidName:
-            return "Please enter a valid name."
-
-        case .emptyPhone:
-            return "Phone number is required."
-
-        case .invalidPhone:
-            return "Please enter a valid phone number."
-
-        case .emptyOTP:
-            return "OTP is required."
-
-        case .invalidOTP:
-            return "OTP must be 6 digits."
-
+        case .passwordsDoNotMatch:
+            return "Passwords do not match."
         }
     }
 }

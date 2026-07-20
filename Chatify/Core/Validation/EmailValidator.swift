@@ -9,11 +9,12 @@
 import Foundation
 
 struct EmailValidator: Validator {
-    init() {}
 
     func validate(_ email: String) throws {
 
-        guard !email.trimmingCharacters(in: .whitespaces).isEmpty else {
+        let email = email.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !email.isEmpty else {
             throw ValidationError.emptyEmail
         }
 

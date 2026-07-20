@@ -5,12 +5,16 @@
 //  Created by AVINASH on 13/07/26.
 //
 
-
 import SwiftUI
+import FactoryKit
 
 struct LoginView: View {
 
-    @StateObject private var viewModel = LoginViewModel()
+    @Environment(AppCoordinator.self)
+    private var coordinator
+
+    @State
+    private var viewModel = Container.shared.loginViewModel()
 
     var body: some View {
 
@@ -42,35 +46,49 @@ struct LoginView: View {
                 }
 
                 ForgotPasswordButton {
-                    viewModel.forgotPasswordTapped()
+                    // TODO
                 }
 
                 PrimaryButton(
                     title: "Login",
                     isLoading: viewModel.isLoading
                 ) {
-                    viewModel.login()
+
+                    Task {
+                        await viewModel.login()
+                    }
                 }
 
                 AuthFooterView(
                     title: "Don't have an account?",
                     actionTitle: "Sign Up"
                 ) {
-                    viewModel.signUpTapped()
+
+                    coordinator.showRegister()
                 }
 
                 Spacer()
             }
             .padding(.horizontal, AppSize.s24)
             .padding(.vertical, AppSize.s20)
-        }.hideKeyboardOnTap()
+        }
+        .hideKeyboardOnTap()
         .background(theme.colors.background)
         .navigationBarBackButtonHidden(true)
+        .onChange(of: viewModel.shouldNavigateToHome) { _, shouldNavigate in
+
+            guard shouldNavigate else {
+                return
+            }
+            
+            print("Navigate to Main")
+            coordinator.showMain()
+        }
     }
 }
 
 #Preview {
-    NavigationStack {
-        LoginView()
-    }
+
+    LoginView()
+        .environment(AppCoordinator())
 }

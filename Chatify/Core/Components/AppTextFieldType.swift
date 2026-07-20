@@ -11,8 +11,7 @@ enum AppTextFieldType {
     case name
     case email
     case password
-    case phone
-    case search
+    case confirmPassword
 
     // MARK: - Title
 
@@ -26,12 +25,9 @@ enum AppTextFieldType {
 
         case .password:
             return "Password"
-
-        case .phone:
-            return "Phone Number"
-
-        case .search:
-            return "Search"
+        
+        case .confirmPassword:
+                return "Confirm Password"
         }
     }
 
@@ -47,12 +43,10 @@ enum AppTextFieldType {
 
         case .password:
             return "Enter your password"
+        
+        case .confirmPassword:
+            return "Enter your confirm password"
 
-        case .phone:
-            return "Enter your phone number"
-
-        case .search:
-            return "Search"
         }
     }
 
@@ -62,9 +56,6 @@ enum AppTextFieldType {
         switch self {
         case .email:
             return .emailAddress
-
-        case .phone:
-            return .phonePad
 
         default:
             return .default
@@ -81,14 +72,8 @@ enum AppTextFieldType {
         case .email:
             return .emailAddress
 
-        case .password:
+        case .password, .confirmPassword:
             return .password
-
-        case .phone:
-            return .telephoneNumber
-
-        case .search:
-            return nil
         }
     }
 
@@ -102,11 +87,18 @@ enum AppTextFieldType {
 
     var submitLabel: SubmitLabel {
         switch self {
-        case .search:
-            return .search
 
-        default:
+        case .name:
             return .next
+
+        case .email:
+            return .next
+
+        case .password:
+            return .next
+
+        case .confirmPassword:
+            return .done
         }
     }
 
@@ -117,7 +109,7 @@ enum AppTextFieldType {
         case .name:
             return .words
 
-        case .email, .password, .phone, .search:
+        case .email, .password, .confirmPassword:
             return .never
         }
     }
@@ -126,10 +118,10 @@ enum AppTextFieldType {
 
     var autocorrectionDisabled: Bool {
         switch self {
-        case .email, .password, .search:
+        case .email, .password, .confirmPassword:
             return true
 
-        case .name, .phone:
+        case .name:
             return false
         }
     }
@@ -144,14 +136,8 @@ enum AppTextFieldType {
         case .email:
             return "envelope"
 
-        case .password:
+        case .password, .confirmPassword:
             return "lock"
-
-        case .phone:
-            return "phone"
-
-        case .search:
-            return "magnifyingglass"
         }
     }
 }

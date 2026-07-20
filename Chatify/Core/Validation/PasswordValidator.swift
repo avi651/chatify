@@ -9,10 +9,10 @@
 import Foundation
 
 struct PasswordValidator: Validator {
-    
-    init() {}
 
     func validate(_ password: String) throws {
+
+        let password = password.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !password.isEmpty else {
             throw ValidationError.emptyPassword

@@ -1,67 +1,106 @@
-//
-//  LoginViewModel.swift
-//  Chatify
-//
-//  Created by AVINASH on 15/07/26.
-//
+import Foundation
+import Observation
 
-import SwiftUI
-import Combine
+@Observable
+final class LoginViewModel {
 
-@MainActor
-final class LoginViewModel: ObservableObject {
-    
-    // MARK: - Input
-    
-    @Published var email = ""
-    @Published var password = ""
-    
-    // MARK: - Output
-    
-    @Published var emailError: String?
-    @Published var passwordError: String?
-    
-    @Published var isLoading = false
-    
+    // MARK: - Dependencies
+
+    private let loginUseCase: LoginUseCase
+    private let keychainService: KeychainService
+
+    // MARK: - Validators
+
+    private let emailValidator = EmailValidator()
+    private let passwordValidator = PasswordValidator()
+
+    // MARK: - Form
+
+    var email = ""
+    var password = ""
+
+    // MARK: - Validation Errors
+
+    var emailError: String?
+    var passwordError: String?
+
+    // MARK: - UI State
+
+    var isLoading = false
+    var shouldNavigateToHome = false
+
+    // MARK: - Init
+
+    init(
+        loginUseCase: LoginUseCase,
+        keychainService: KeychainService
+    ) {
+        self.loginUseCase = loginUseCase
+        self.keychainService = keychainService
+    }
+
     // MARK: - Login
-    
-    func login() {
-        emailError = nil
-        passwordError = nil
-        
-        do {
-            try EmailValidator().validate(email)
-        } catch {
-            emailError = error.localizedDescription
-        }
-        
-        do {
-            try PasswordValidator().validate(password)
-        } catch {
-            passwordError = error.localizedDescription
-        }
-        
-        guard emailError == nil,
-              passwordError == nil else {
+
+    func login() async {
+
+        clearErrors()
+
+        guard validate() else {
             return
         }
-        
-        Task {
-            isLoading = true
-            defer { isLoading = false }
+
+        isLoading = true
+        defer { isLoading = false }
+
+        do {
+
+            let response = try await loginUseCase.execute(
+                email: email,
+                password: password
+            )
             
-            try? await Task.sleep(for: .seconds(2))
-            print("Login Success")
+            try keychainService.save(
+                response.accessToken,
+                for: .accessToken
+            )
+
+            shouldNavigateToHome = true
+
+        } catch {
+
+            passwordError = error.localizedDescription
         }
     }
-    
-    // MARK: - Actions
+}
 
-        func forgotPasswordTapped() {
-            // TODO: Coordinator Navigation
+// MARK: - Private
+
+private extension LoginViewModel {
+
+    func clearErrors() {
+
+        emailError = nil
+        passwordError = nil
+    }
+
+    func validate() -> Bool {
+
+        var isValid = true
+
+        do {
+            try emailValidator.validate(email)
+        } catch {
+            emailError = error.localizedDescription
+            isValid = false
         }
 
-        func signUpTapped() {
-            // TODO: Coordinator Navigation
+        do {
+            try passwordValidator.validate(password)
+        } catch {
+            passwordError = error.localizedDescription
+            isValid = false
         }
+
+        return isValid
+    }
 }

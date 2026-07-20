@@ -1,8 +1,8 @@
 API_SCHEME = http
-API_HOST = localhost
-API_PORT = 8080
+API_HOST = 127.0.0.1
+API_PORT = 8000
 
 WS_SCHEME = ws
-WS_HOST = localhost
-WS_PORT = 8080
-WS_PATH = chat
+WS_HOST = 127.0.0.1
+WS_PORT = 8000
+WS_PATH = /ws/chat

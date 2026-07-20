@@ -1,55 +1,57 @@
-//
-//  Environment.swift
-//  Chatify
-//
-//  Created by AVINASH on 13/07/26.
-//
-
 import Foundation
 
 enum AppConfiguration {
 
     static var baseURL: URL {
-
-        guard let urlString = Bundle.main.object(
-            forInfoDictionaryKey: "BASE_URL"
-        ) as? String else {
-            fatalError("BASE_URL Missing")
-        }
-
-        let finalURL: String
-
-        if urlString.hasPrefix("http") {
-            finalURL = urlString
-        } else {
-            finalURL = "http://\(urlString)"
-        }
-
-        guard let url = URL(string: finalURL) else {
-            fatalError("Invalid BASE_URL: \(finalURL)")
-        }
-
-        return url
+        makeURL(
+            schemeKey: "API_SCHEME",
+            hostKey: "API_HOST",
+            portKey: "API_PORT"
+        )
     }
 
     static var websocketURL: URL {
+        makeURL(
+            schemeKey: "WS_SCHEME",
+            hostKey: "WS_HOST",
+            portKey: "WS_PORT",
+            pathKey: "WS_PATH"
+        )
+    }
+}
 
-        guard let urlString = Bundle.main.object(
-            forInfoDictionaryKey: "WEBSOCKET_URL"
-        ) as? String else {
-            fatalError("WEBSOCKET_URL Missing")
+// MARK: - Private
+
+private extension AppConfiguration {
+
+    static func makeURL(
+        schemeKey: String,
+        hostKey: String,
+        portKey: String,
+        pathKey: String? = nil
+    ) -> URL {
+
+        guard
+            let scheme = Bundle.main.object(forInfoDictionaryKey: schemeKey) as? String,
+            let host = Bundle.main.object(forInfoDictionaryKey: hostKey) as? String,
+            let portString = Bundle.main.object(forInfoDictionaryKey: portKey) as? String,
+            let port = Int(portString)
+        else {
+            fatalError("Invalid configuration")
         }
 
-        let finalURL: String
+        var components = URLComponents()
+        components.scheme = scheme
+        components.host = host
+        components.port = port
 
-        if urlString.hasPrefix("ws") {
-            finalURL = urlString
-        } else {
-            finalURL = "ws://\(urlString)"
+        if let pathKey,
+           let path = Bundle.main.object(forInfoDictionaryKey: pathKey) as? String {
+            components.path = path
         }
 
-        guard let url = URL(string: finalURL) else {
-            fatalError("Invalid WEBSOCKET_URL: \(finalURL)")
+        guard let url = components.url else {
+            fatalError("Unable to create URL")
         }
 
         return url

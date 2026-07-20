@@ -5,11 +5,11 @@
 //  Created by AVINASH on 17/07/26.
 //
 
+
 import Foundation
 
-enum AppRoute {
-    case splash
-    case login
+enum AppRoute: Hashable {
+
     case register
-    case home
+    case chat
 }

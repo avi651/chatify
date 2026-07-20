@@ -127,14 +127,8 @@ struct AppTextField: View {
         case .email:
             return "envelope"
 
-        case .password:
+        case .password, .confirmPassword:
             return "lock"
-
-        case .phone:
-            return "phone"
-
-        case .search:
-            return "magnifyingglass"
 
         }
 
@@ -157,16 +151,6 @@ struct AppTextField: View {
 
         AppTextField(
             .password,
-            text: .constant("")
-        )
-
-        AppTextField(
-            .phone,
-            text: .constant("")
-        )
-
-        AppTextField(
-            .search,
             text: .constant("")
         )
 
