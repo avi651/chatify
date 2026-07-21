@@ -22,10 +22,19 @@ extension Container {
         }
         .singleton
     }
-    
+
     var keychainService: Factory<KeychainService> {
         self {
             KeychainServiceImpl()
+        }
+        .singleton
+    }
+
+    var webSocketService: Factory<WebSocketService> {
+        self {
+            WebSocketServiceImpl(
+                session: URLSession.shared
+            )
         }
         .singleton
     }
@@ -43,22 +52,7 @@ extension Container {
         }
         .singleton
     }
-    
-    var webSocketService: Factory<WebSocketService> {
-        self {
-            WebSocketServiceImpl()
-        }
-        .singleton
-    }
-    
-    var chatViewModel: Factory<ChatViewModel> {
-       self {
-            ChatViewModel(webSocketService: self.webSocketService())
-        }
-    }
 }
-
-
 
 // MARK: - Use Cases
 
@@ -85,17 +79,24 @@ extension Container {
             )
         }
     }
-}
 
-
-// MARK: - Injecting Validator
-extension Container {
-    @MainActor
-    var loginValidator: Factory<EmailValidator> {
-        Factory(self) {
-            EmailValidator()
+    var chatViewModel: Factory<ChatViewModel> {
+        self {
+            ChatViewModel(
+                webSocketService: self.webSocketService()
+            )
         }
     }
 }
 
+// MARK: - Validators
 
+extension Container {
+
+    @MainActor
+    var loginValidator: Factory<EmailValidator> {
+        self {
+            EmailValidator()
+        }
+    }
+}

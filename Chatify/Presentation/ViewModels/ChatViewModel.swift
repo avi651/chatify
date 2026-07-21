@@ -7,33 +7,53 @@
 
 import Foundation
 import Combine
-import Observation
 
-@Observable
-final class ChatViewModel {
+
+final class ChatViewModel: ObservableObject {
+    
+    // MARK: - Published Properties
+    
+    @Published var messages: [String] = []
+    @Published var isConnected = false
+    
+    // MARK: - Private Properties
+    
     private let webSocketService: WebSocketService
     private var cancellables = Set<AnyCancellable>()
-    var connectionState: WebSocketState = .disconnected
+    
+    // MARK: - Initializer
     
     init(webSocketService: WebSocketService) {
         self.webSocketService = webSocketService
+        observeMessages()
     }
     
-    func connect(roomId: Int) {
-        webSocketService.connect(roomId: roomId)
+    // MARK: - Public Methods
+    
+    func connect(token: String) {
+        webSocketService.connect(token: token)
+        isConnected = true
     }
     
     func disconnect() {
         webSocketService.disconnect()
+        isConnected = false
     }
     
-    private func observeConnectionState() {
-        
-        webSocketService.connectionStatePublisher
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] state in
-             self?.connectionState = state
-         }.store(in: &cancellables)
-        
+    func send(message: String) {
+        webSocketService.send(message)
     }
+}
+
+private extension ChatViewModel {
+    
+    func observeMessages() {
+        webSocketService.messages
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                self?.messages.append(message)
+            }
+            .store(in: &cancellables)
+    }
+    
 }

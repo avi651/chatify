@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum AppTab: CaseIterable {
+enum AppTab: CaseIterable, Hashable {
 
     case chats
     case settings
