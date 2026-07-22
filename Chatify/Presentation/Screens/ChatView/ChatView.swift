@@ -16,31 +16,47 @@ struct ChatView: View {
     @Injected(\.keychainService)
     private var keychainService
 
+    @State
+    private var searchText = ""
+
     var body: some View {
 
-        List(viewModel.messages, id: \.self) { message in
-            Text(message)
-        }
-        .navigationTitle("Chat")
-        .task {
-            connectWebSocket()
-        }
-        .safeAreaInset(edge: .bottom) {
+        NavigationStack {
 
-            Button {
+            List {
 
-                sendTypingEvent()
+                ForEach(filteredConversations) { conversation in
 
-            } label: {
+                    NavigationLink {
 
-                Text("Send")
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                        // ChatDetailView(conversation: conversation)
+
+                    } label: {
+
+                        ChatRowView(conversation: conversation)
+                    }
+                }
             }
-            .buttonStyle(.borderedProminent)
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background(.ultraThinMaterial)
+            .overlay {
+
+                if viewModel.isLoading {
+                    ProgressView()
+                }
+            }
+            .listStyle(.plain)
+            .navigationTitle("Chats")
+            .navigationBarTitleDisplayMode(.large)
+            .searchable(text: $searchText)
+            .safeAreaPadding(.bottom, 110)
+            .refreshable {
+                await viewModel.loadConversations()
+            }
+        }
+        .task {
+
+            await viewModel.loadConversations()
+
+            connectWebSocket()
         }
     }
 }
@@ -49,33 +65,31 @@ struct ChatView: View {
 
 private extension ChatView {
 
+    var filteredConversations: [Conversation] {
+
+        guard !searchText.isEmpty else {
+            return viewModel.conversations
+        }
+
+        return viewModel.conversations.filter {
+            $0.participantName.localizedCaseInsensitiveContains(searchText)
+        }
+    }
+
     func connectWebSocket() {
 
         do {
 
-            guard let token = try keychainService.read(for: .accessToken) else {
-                print("❌ Access token not found")
+            guard let token = try keychainService.read(
+                for: .accessToken
+            ) else {
                 return
             }
 
             viewModel.connect(token: token)
 
         } catch {
-
-            print("❌ Failed to read token: \(error.localizedDescription)")
+            print(error)
         }
-    }
-
-    func sendTypingEvent() {
-
-        let json = """
-        {
-            "type":"typing",
-            "conversation_id":1,
-            "is_typing":true
-        }
-        """
-
-        viewModel.send(message: json)
     }
 }

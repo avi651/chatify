@@ -19,30 +19,22 @@ struct MainTabView: View {
             currentScreen
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(theme.colors.background)
-                .ignoresSafeArea()
+                // ❌ Remove this
+                //.ignoresSafeArea()
 
             FloatingTabBar(
                 selectedTab: $selectedTab
             )
+            .padding(.horizontal, AppSize.s20)
             .padding(.bottom, AppSize.s20)
         }
+        .background(theme.colors.background)
         .animation(
-            .spring(
-                response: 0.35,
-                dampingFraction: 0.80
-            ),
+            .spring(response: 0.35, dampingFraction: 0.8),
             value: selectedTab
         )
-        .onAppear {
-            print("✅ MainTabView appeared")
-        }
-        .onDisappear {
-            print("❌ MainTabView disappeared")
-        }
     }
 }
-
-// MARK: - Private
 
 private extension MainTabView {
 
@@ -58,8 +50,4 @@ private extension MainTabView {
             SettingsView()
         }
     }
-}
-
-#Preview {
-    MainTabView()
 }

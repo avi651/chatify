@@ -52,6 +52,15 @@ extension Container {
         }
         .singleton
     }
+
+    var conversationRepository: Factory<ConversationRepository> {
+        self {
+            ConversationRepositoryImpl(
+                apiClient: self.apiClient()
+            )
+        }
+        .singleton
+    }
 }
 
 // MARK: - Use Cases
@@ -62,6 +71,14 @@ extension Container {
         self {
             LoginUseCaseImpl(
                 repository: self.authRepository()
+            )
+        }
+    }
+
+    var getConversationsUseCase: Factory<GetConversationsUseCase> {
+        self {
+            GetConversationsUseCaseImpl(
+                repository: self.conversationRepository()
             )
         }
     }
@@ -83,6 +100,7 @@ extension Container {
     var chatViewModel: Factory<ChatViewModel> {
         self {
             ChatViewModel(
+                getConversationsUseCase: self.getConversationsUseCase(),
                 webSocketService: self.webSocketService()
             )
         }

@@ -47,9 +47,22 @@ struct RequestBuilder {
         request.httpMethod = endpoint.method.rawValue
         request.timeoutInterval = endpoint.timeout
 
+        // MARK: Default Headers
+
         endpoint.headers.forEach { key, value in
-            request.setValue(value, forHTTPHeaderField: key)
+            request.setValue(
+                value,
+                forHTTPHeaderField: key
+            )
         }
+
+        // MARK: Authorization Header
+
+        try attachAuthorizationHeader(
+            to: &request
+        )
+
+        // MARK: HTTP Body
 
         try buildBody(
             endpoint.body,
@@ -63,6 +76,25 @@ struct RequestBuilder {
 // MARK: - Private
 
 private extension RequestBuilder {
+
+    func attachAuthorizationHeader(
+        to request: inout URLRequest
+    ) throws {
+
+        let keychain = KeychainServiceImpl()
+
+        guard let token = try keychain.read(
+            for: .accessToken
+        ),
+        !token.isEmpty else {
+            return
+        }
+
+        request.setValue(
+            "Bearer \(token)",
+            forHTTPHeaderField: "Authorization"
+        )
+    }
 
     func buildBody(
         _ body: HTTPBody?,
