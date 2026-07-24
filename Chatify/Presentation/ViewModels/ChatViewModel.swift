@@ -1,13 +1,5 @@
-//
-//  ChatViewModel.swift
-//  Chatify
-//
-//  Created by AVINASH on 20/07/26.
-//
-
 import Foundation
 import Combine
-
 
 final class ChatViewModel: ObservableObject {
 
@@ -34,10 +26,10 @@ final class ChatViewModel: ObservableObject {
         self.getConversationsUseCase = getConversationsUseCase
         self.webSocketService = webSocketService
 
-        observeMessages()
+        observeSocket()
     }
 
-    // MARK: - Conversation
+    // MARK: - Conversations
 
     func loadConversations() async {
 
@@ -60,15 +52,13 @@ final class ChatViewModel: ObservableObject {
 
     func connect(token: String) {
         webSocketService.connect(token: token)
-        isConnected = true
     }
 
     func disconnect() {
         webSocketService.disconnect()
-        isConnected = false
     }
 
-    func send(message: String) {
+    func send(_ message: WebSocketMessage) {
         webSocketService.send(message)
     }
 }
@@ -77,21 +67,36 @@ final class ChatViewModel: ObservableObject {
 
 private extension ChatViewModel {
 
-    func observeMessages() {
+    func observeSocket() {
 
-        webSocketService.messages
+        webSocketService.events
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] message in
+            .sink { [weak self] event in
 
-                print("📩 \(message)")
+                guard let self else { return }
 
-                // Future:
-                // Decode WebSocket JSON
-                // Update conversation list
-                // Update unread count
-                // Move latest conversation to top
+                switch event {
 
-                _ = self
+                case .connected:
+                    self.isConnected = true
+                    print("🟢 WebSocket Connected")
+
+                case .disconnected:
+                    self.isConnected = false
+                    print("🔴 WebSocket Disconnected")
+
+                case .message(let message):
+                    print("📩 \(message)")
+
+                    // TODO:
+                    // Update conversation preview
+                    // Update unread count
+                    // Move latest conversation to top
+
+                case .error(let error):
+                    self.errorMessage = error.localizedDescription
+                    print("❌ WebSocket Error: \(error)")
+                }
             }
             .store(in: &cancellables)
     }

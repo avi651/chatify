@@ -9,11 +9,11 @@ import Combine
 
 protocol WebSocketService {
 
-    var messages: AnyPublisher<String, Never> { get }
+    var events: AnyPublisher<WebSocketEvent, Never> { get }
 
     func connect(token: String)
 
-    func send(_ text: String)
+    func send(_ message: WebSocketMessage)
 
     func disconnect()
 }

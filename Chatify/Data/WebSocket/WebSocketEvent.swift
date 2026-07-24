@@ -8,12 +8,9 @@
 import Foundation
 
 public enum WebSocketEvent: Sendable {
-    
+
     case connected
-    
     case disconnected
-    
     case message(WebSocketMessage)
-    
     case error(Error)
 }

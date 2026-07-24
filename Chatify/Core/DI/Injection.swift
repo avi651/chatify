@@ -11,7 +11,7 @@ import FactoryKit
 // MARK: - Services
 
 extension Container {
-
+    
     var apiClient: Factory<APIClient> {
         self {
             APIClientImpl(
@@ -22,14 +22,14 @@ extension Container {
         }
         .singleton
     }
-
+    
     var keychainService: Factory<KeychainService> {
         self {
             KeychainServiceImpl()
         }
         .singleton
     }
-
+    
     var webSocketService: Factory<WebSocketService> {
         self {
             WebSocketServiceImpl(
@@ -43,7 +43,7 @@ extension Container {
 // MARK: - Repositories
 
 extension Container {
-
+    
     var authRepository: Factory<AuthRepository> {
         self {
             AuthRepositoryImpl(
@@ -52,10 +52,19 @@ extension Container {
         }
         .singleton
     }
-
+    
     var conversationRepository: Factory<ConversationRepository> {
         self {
             ConversationRepositoryImpl(
+                apiClient: self.apiClient()
+            )
+        }
+        .singleton
+    }
+    
+    var messageRepository: Factory<MessageRepository> {
+        self {
+            MessageRepositoryImpl(
                 apiClient: self.apiClient()
             )
         }
@@ -66,7 +75,7 @@ extension Container {
 // MARK: - Use Cases
 
 extension Container {
-
+    
     var loginUseCase: Factory<LoginUseCase> {
         self {
             LoginUseCaseImpl(
@@ -74,11 +83,19 @@ extension Container {
             )
         }
     }
-
+    
     var getConversationsUseCase: Factory<GetConversationsUseCase> {
         self {
             GetConversationsUseCaseImpl(
                 repository: self.conversationRepository()
+            )
+        }
+    }
+    
+    var getMessagesUseCase: Factory<GetMessagesUseCase> {
+        self {
+            GetMessagesUseCaseImpl(
+                repository: self.messageRepository()
             )
         }
     }
@@ -87,7 +104,7 @@ extension Container {
 // MARK: - ViewModels
 
 extension Container {
-
+    
     var loginViewModel: Factory<LoginViewModel> {
         self {
             LoginViewModel(
@@ -96,7 +113,7 @@ extension Container {
             )
         }
     }
-
+    
     var chatViewModel: Factory<ChatViewModel> {
         self {
             ChatViewModel(
@@ -105,12 +122,26 @@ extension Container {
             )
         }
     }
+    
+    /// Factory for ChatDetailViewModel
+    /// Conversation is passed at runtime.
+    func chatDetailViewModel(
+        conversation: Conversation
+    ) -> ChatDetailViewModel {
+
+        ChatDetailViewModel(
+            conversation: conversation,
+            getMessagesUseCase: self.getMessagesUseCase(),
+            webSocketService: self.webSocketService(),
+            keychainService: self.keychainService()
+        )
+    }
 }
 
 // MARK: - Validators
 
 extension Container {
-
+    
     @MainActor
     var loginValidator: Factory<EmailValidator> {
         self {

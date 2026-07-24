@@ -29,7 +29,9 @@ struct ChatView: View {
 
                     NavigationLink {
 
-                        // ChatDetailView(conversation: conversation)
+                        ChatDetailView(
+                            conversation: conversation
+                        )
 
                     } label: {
 
